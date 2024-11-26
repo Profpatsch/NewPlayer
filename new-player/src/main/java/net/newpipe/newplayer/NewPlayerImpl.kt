@@ -298,10 +298,6 @@ class NewPlayerImpl(
                         mutableErrorFlow.emit(e)
                     }
                 }
-
-                else -> {
-                    throw NewPlayerException("Unknwon exception response ${response.javaClass}")
-                }
             }
         }
     }
