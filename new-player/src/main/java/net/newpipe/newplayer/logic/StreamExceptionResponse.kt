@@ -23,7 +23,7 @@ package net.newpipe.newplayer.logic;
 import net.newpipe.newplayer.data.StreamSelection
 import net.newpipe.newplayer.NewPlayer
 
-interface StreamExceptionResponse
+sealed interface StreamExceptionResponse
 
 /***
  * Perform a specific action, like halting the playback or etc.
