@@ -58,7 +58,7 @@ internal suspend fun buildMediaSource(
     ): MediaSource {
         when (streamSelection) {
             is SingleSelection -> {
-                val mediaItem = toMediaItem(streamSelection.item, streamSelection.stream, uniqueId)
+                val mediaItem = toMediaItem(streamSelection.stream, uniqueId)
                 val mediaItemWithMetadata = addMetadata(mediaItem, streamSelection.item)
                 return toMediaSource(mediaItemWithMetadata, streamSelection.stream)
             }
@@ -66,7 +66,6 @@ internal suspend fun buildMediaSource(
             is MultiSelection -> {
                 val mediaItems = ArrayList(streamSelection.streams.map {
                     toMediaItem(
-                        streamSelection.item,
                         it,
                         uniqueId
                     )
@@ -88,7 +87,7 @@ internal suspend fun buildMediaSource(
 
     @OptIn(UnstableApi::class)
     private
-    fun toMediaItem(item: String, stream: Stream, uniqueId: Long): MediaItem {
+    fun toMediaItem(stream: Stream, uniqueId: Long): MediaItem {
 
         val mediaItemBuilder = MediaItem.Builder()
             .setMediaId(uniqueId.toString())
