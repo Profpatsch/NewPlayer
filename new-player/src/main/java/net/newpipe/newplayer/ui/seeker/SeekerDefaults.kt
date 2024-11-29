@@ -234,30 +234,6 @@ internal class DefaultSeekerDimensions(
     override fun thumbRadius(): State<Dp> {
         return rememberUpdatedState(thumbRadius)
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as DefaultSeekerDimensions
-
-        if (trackHeight != other.trackHeight) return false
-        if (progressHeight != other.progressHeight) return false
-        if (gap != other.gap) return false
-        if (thumbRadius != other.thumbRadius) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = trackHeight.hashCode()
-
-        result = 31 * result + progressHeight.hashCode()
-        result = 31 * result + gap.hashCode()
-        result = 31 * result + thumbRadius.hashCode()
-
-        return result
-    }
 }
 
 @Immutable
@@ -298,35 +274,5 @@ internal class DefaultSeekerColor(
         return rememberUpdatedState(
             readAheadColor
         )
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as DefaultSeekerColor
-
-        if (progressColor != other.progressColor) return false
-        if (trackColor != other.trackColor) return false
-        if (disabledTrackColor != other.disabledTrackColor) return false
-        if (disabledProgressColor != other.disabledProgressColor) return false
-        if (thumbColor != other.thumbColor) return false
-        if (disabledThumbColor != other.disabledThumbColor) return false
-        if (readAheadColor != other.readAheadColor) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = progressColor.hashCode()
-
-        result = 31 * result + trackColor.hashCode()
-        result = 31 * result + disabledTrackColor.hashCode()
-        result = 31 * result + disabledProgressColor.hashCode()
-        result = 31 * result + thumbColor.hashCode()
-        result = 31 * result + disabledThumbColor.hashCode()
-        result = 31 * result + readAheadColor.hashCode()
-
-        return result
     }
 }
