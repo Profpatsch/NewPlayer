@@ -60,9 +60,9 @@ internal fun PlaySurface(
 
     // Preparation
 
-    val activity = LocalContext.current as Activity
+    val ctx = LocalContext.current
 
-    val displayMetrics = activity.resources.displayMetrics
+    val displayMetrics = ctx.resources.displayMetrics
 
     val screenRatio =
         displayMetrics.widthPixels.toFloat() / displayMetrics.heightPixels.toFloat()

@@ -1,5 +1,6 @@
 package net.newpipe.newplayer.uiModel
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.flow.MutableSharedFlow

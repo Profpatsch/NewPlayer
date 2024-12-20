@@ -52,6 +52,7 @@ import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.ui.selection_ui.StreamSelectUI
 import androidx.lifecycle.LifecycleEventObserver
 import net.newpipe.newplayer.data.NewPlayerException
+import net.newpipe.newplayer.ui.common.activity
 import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.ui.selection_ui.ChapterSelectUI
 import net.newpipe.newplayer.ui.videoplayer.pip.getPipParams
@@ -64,14 +65,12 @@ import net.newpipe.newplayer.uiModel.UIModeState
 
 /** @hide */
 internal fun VideoPlayerUi(viewModel: InternalNewPlayerViewModel, uiState: NewPlayerUIState) {
-    val embeddedUiConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
+    val activity = activity()
+
+    getEmbeddedUiConfig(activity = LocalContext.current as Activity)
 
     val exoPlayer by viewModel.newPlayer?.exoPlayer!!.collectAsState()
 
-    val activity = LocalContext.current as Activity
 
     var videoViewBounds by remember {
         mutableStateOf(android.graphics.Rect())
