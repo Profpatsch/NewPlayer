@@ -71,7 +71,8 @@ internal fun VideoPlayerUi(viewModel: InternalNewPlayerViewModel, uiState: NewPl
 
     val exoPlayer by viewModel.newPlayer?.exoPlayer!!.collectAsState()
 
-    val activity = LocalContext.current as Activity
+    // TODO: Casting to Activity here does not work inside a Fragment
+//    val activity = LocalContext.current as Activity
 
     var videoViewBounds by remember {
         mutableStateOf(android.graphics.Rect())
@@ -82,29 +83,29 @@ internal fun VideoPlayerUi(viewModel: InternalNewPlayerViewModel, uiState: NewPl
         //  Probably the supportsPip check can be done in Application and then be available
         //  throughout the app execution, so that the check can be done in the view model and
         //  PIP state changes can be ignored.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && supportsPip(activity))
-            if (uiState.enteringPip) {
-                val pipParams = getPipParams(uiState.contentRatio, videoViewBounds)
-                if (pipParams != null) {
-                    activity.enterPictureInPictureMode(pipParams)
-                } else {
-                    throw NewPlayerException("Pip params where null even though pip seemed to be supported.")
-                }
-                viewModel.doneEnteringPip()
-            }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && supportsPip(activity))
+//            if (uiState.enteringPip) {
+//                val pipParams = getPipParams(uiState.contentRatio, videoViewBounds)
+//                if (pipParams != null) {
+//                    activity.enterPictureInPictureMode(pipParams)
+//                } else {
+//                    throw NewPlayerException("Pip params where null even though pip seemed to be supported.")
+//                }
+//                viewModel.doneEnteringPip()
+//            }
     }
 
     // this is there to update the aspect ratio of the pip window the aspect ratio of the
     // content changes.
     LaunchedEffect(uiState.contentRatio) {
-        if (uiState.uiMode == UIModeState.PIP
-            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-            && supportsPip(activity)
-        ) {
-            val pipParams = getPipParams(uiState.contentRatio, videoViewBounds)
-            if(pipParams != null)
-                activity.setPictureInPictureParams(pipParams)
-        }
+//        if (uiState.uiMode == UIModeState.PIP
+//            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+//            && supportsPip(activity)
+//        ) {
+//            val pipParams = getPipParams(uiState.contentRatio, videoViewBounds)
+//            if(pipParams != null)
+//                activity.setPictureInPictureParams(pipParams)
+//        }
     }
 
     Surface(

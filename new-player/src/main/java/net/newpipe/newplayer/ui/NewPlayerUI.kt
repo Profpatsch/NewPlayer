@@ -21,6 +21,7 @@
 package net.newpipe.newplayer.ui
 
 import android.app.Activity
+import android.app.LocalActivityManager
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.util.Log
@@ -33,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -84,10 +86,10 @@ fun NewPlayerUI(
     } else {
         val uiState by viewModel.uiState.collectAsState()
 
-        val activity = LocalContext.current as Activity
+        // find out whether application is light or dark mode from LocalContext.current
         val view = LocalView.current
-
-        val window = activity.window
+        val window = viewModel.activity.window
+        LocalWindowInfo.current
 
         // Setup fullscreen
 
@@ -146,10 +148,10 @@ fun NewPlayerUI(
 
         LaunchedEffect(key1 = uiState.brightness) {
             Log.d(TAG, "New Brightnes: ${uiState.brightness}")
-            val defaultBrightness = getDefaultBrightness(activity)
+            val defaultBrightness = getDefaultBrightness(viewModel.activity)
 
             setScreenBrightness(
-                uiState.brightness ?: defaultBrightness, activity
+                uiState.brightness ?: defaultBrightness, viewModel.activity
             )
         }
 

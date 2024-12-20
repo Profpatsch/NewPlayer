@@ -1,5 +1,6 @@
 package net.newpipe.newplayer.uiModel
 
+import android.app.Activity
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,6 +16,8 @@ import net.newpipe.newplayer.data.PlayMode.IDLE
  */
 @OptIn(UnstableApi::class)
 interface NewPlayerViewModel {
+
+    var activity: Activity
 
     /**
      * The current instance of [NewPlayer]. If set to null the [NewPlayerUI] instance

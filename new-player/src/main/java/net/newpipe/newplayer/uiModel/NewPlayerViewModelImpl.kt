@@ -20,6 +20,7 @@
 
 package net.newpipe.newplayer.uiModel
 
+import android.app.Activity
 import android.app.Application
 import android.media.AudioManager
 import android.os.Build
@@ -64,6 +65,9 @@ private const val GESTURE_SCROLL_RATE_MULTIPLIER = 1.3f
 class NewPlayerViewModelImpl @Inject constructor(
     application: Application,
 ) : AndroidViewModel(application), InternalNewPlayerViewModel {
+
+    @Inject
+    override lateinit var activity: Activity
 
     // private
     private val mutableUiState = MutableStateFlow(NewPlayerUIState.DEFAULT)
