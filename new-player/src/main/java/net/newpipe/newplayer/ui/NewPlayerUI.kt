@@ -20,7 +20,6 @@
 
 package net.newpipe.newplayer.ui
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.util.Log
@@ -31,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
@@ -48,9 +46,12 @@ import net.newpipe.newplayer.ui.audioplayer.AudioPlayerUI
 import net.newpipe.newplayer.ui.theme.VideoPlayerTheme
 import net.newpipe.newplayer.ui.videoplayer.VideoPlayerUi
 import net.newpipe.newplayer.ui.common.LockScreenOrientation
+import net.newpipe.newplayer.ui.common.activity
+import net.newpipe.newplayer.ui.common.findActivity
 import net.newpipe.newplayer.ui.common.getDefaultBrightness
 import net.newpipe.newplayer.ui.common.isInPowerSaveMode
 import net.newpipe.newplayer.ui.common.setScreenBrightness
+import net.newpipe.newplayer.ui.common.window
 
 private const val TAG = "VideoPlayerUI"
 
@@ -84,9 +85,9 @@ fun NewPlayerUI(
     } else {
         val uiState by viewModel.uiState.collectAsState()
 
-        val activity = LocalContext.current as Activity
+        // find out whether application is light or dark mode from LocalContext.current
         val view = LocalView.current
-
+        val activity = activity()
         val window = activity.window
 
         // Setup fullscreen
@@ -145,7 +146,7 @@ fun NewPlayerUI(
         }
 
         LaunchedEffect(key1 = uiState.brightness) {
-            Log.d(TAG, "New Brightnes: ${uiState.brightness}")
+            Log.d(TAG, "New Brightness: ${uiState.brightness}")
             val defaultBrightness = getDefaultBrightness(activity)
 
             setScreenBrightness(

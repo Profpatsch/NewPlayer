@@ -27,6 +27,7 @@ import android.content.ContextWrapper
 import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
+import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
@@ -54,6 +55,21 @@ import net.newpipe.newplayer.data.NewPlayerException
 import net.newpipe.newplayer.R
 import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import java.util.Locale
+
+@Composable
+internal fun activity(): Activity
+    = LocalContext.current.findActivity()!!
+
+@Composable
+internal fun window(): Window
+    = activity().window
+
+/** @hide */
+internal fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
 
 @Composable
 
@@ -86,12 +102,6 @@ internal fun setScreenBrightness(value: Float, activity: Activity) {
 }
 
 
-/** @hide */
-internal fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
-}
 
 
 @Composable
