@@ -52,12 +52,12 @@ sealed interface StreamTrack {
 data class VideoStreamTrack(
     val width: Int,
     val height: Int,
-    val frameRate: Int,
     override val fileFormat: String,
+    val frameRate: Int? = null,
 ) : StreamTrack {
 
     override fun toShortIdentifierString() =
-        "${if (width < height) width else height}p${if (frameRate > 30) frameRate else ""}"
+        "${if (width < height) width else height}p${if (frameRate != null && frameRate > 30) frameRate else ""}"
 
     override fun toLongIdentifierString() = "$fileFormat ${toShortIdentifierString()}"
 
@@ -70,7 +70,10 @@ data class VideoStreamTrack(
             if (diff != 0) {
                 return diff
             }
-            return a.frameRate - b.frameRate
+            if (a.frameRate != null && b.frameRate == null) return 1
+            if (a.frameRate == null && b.frameRate != null) return -1
+            if (a.frameRate != null && b.frameRate != null) return a.frameRate - b.frameRate
+            return 0
         }
     }
 
