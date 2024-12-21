@@ -45,7 +45,7 @@ internal fun getAllAvailableTracksNonDuplicated(streams: List<Stream>): List<Str
         streams.forEach {
             totalList.addAll(it.streamTracks)
         }
-        totalList.sort()
+        totalList.sortWith(StreamTrack.Companion::compareResolution)
         return totalList.distinct()
     }
 
@@ -251,7 +251,7 @@ internal fun streamTracksFromMedia3Tracks(
                 }
             }
         }
-        tracks.sort()
+        tracks.sortWith(StreamTrack.Companion::compareResolution)
 
         return tracks.distinct()
     }

@@ -23,11 +23,27 @@ package net.newpipe.newplayer.data
 /**
  * Media3 does not provide a class to represent individual tracks. So here we go.
  */
-interface StreamTrack : Comparable<StreamTrack> {
+sealed interface StreamTrack {
     val fileFormat: String
 
     fun toShortIdentifierString(): String
     fun toLongIdentifierString(): String
+
+    companion object {
+        /** [Comparator] for StreamTracks, sorts VideoStreamTracks before AudioStreamTracks */
+         fun compareResolution(t1: StreamTrack, t2: StreamTrack) =
+            when {
+                // video comes before audio
+                t1 is VideoStreamTrack && t2 is AudioStreamTrack -> -1
+                // audio comes after video
+                t1 is AudioStreamTrack && t2 is VideoStreamTrack -> 1
+                // better audio/video first
+                t1 is VideoStreamTrack && t2 is VideoStreamTrack -> -VideoStreamTrack.compareResolutions(t1, t2)
+                t1 is AudioStreamTrack && t2 is AudioStreamTrack -> -AudioStreamTrack.compareResolutions(t1, t2)
+                // should not happen
+                else -> 0
+            }
+    }
 }
 
 /**
@@ -45,17 +61,18 @@ data class VideoStreamTrack(
 
     override fun toLongIdentifierString() = "$fileFormat ${toShortIdentifierString()}"
 
-    override fun compareTo(other: StreamTrack) =
-        if (other is VideoStreamTrack) {
-            val diff = width * height - other.width * other.height
-            if (diff == 0) {
-                frameRate - other.frameRate
-            } else {
-                diff
+    companion object {
+        /**
+         * [Comparator] for VideoStreamTrack resolutions
+         */
+        fun compareResolutions(a: VideoStreamTrack, b: VideoStreamTrack): Int {
+            val diff = a.width * a.height - b.width * b.height
+            if (diff != 0) {
+                return diff
             }
-        } else {
-            1
+            return a.frameRate - b.frameRate
         }
+    }
 
     override fun toString() = """
         VideoStreamTrack {
@@ -82,12 +99,11 @@ data class AudioStreamTrack(
 
     override fun toLongIdentifierString() = "$fileFormat ${toShortIdentifierString()}"
 
-    override fun compareTo(other: StreamTrack) =
-        if (other is AudioStreamTrack) {
-            bitrate - other.bitrate
-        } else {
-            -1
-        }
+    companion object {
+        /** [Comparator] for AudioStreamTrack bitrates */
+        fun compareResolutions(a: AudioStreamTrack, b: AudioStreamTrack) =
+            a.bitrate - b.bitrate
+    }
 
     override fun toString() = """
         AudioStreamTrack {
