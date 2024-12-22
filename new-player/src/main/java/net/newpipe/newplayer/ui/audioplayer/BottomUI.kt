@@ -20,7 +20,6 @@
 
 package net.newpipe.newplayer.ui.audioplayer
 
-import android.app.Activity
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,7 +35,6 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PictureInPicture
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Speed
-import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -56,7 +54,6 @@ import androidx.media3.common.util.UnstableApi
 import net.newpipe.newplayer.R
 import net.newpipe.newplayer.ui.common.LanguageMenu
 import net.newpipe.newplayer.ui.common.LanguageMenuItem
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.uiModel.NewPlayerViewModelDummy
@@ -72,10 +69,7 @@ import net.newpipe.newplayer.ui.common.showNotYetImplementedToast
 /** @hide */
 internal fun AudioBottomUI(viewModel: InternalNewPlayerViewModel, uiState: NewPlayerUIState) {
 
-    val embeddedUiConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
+    val embeddedUiConfig = getEmbeddedUiConfig()
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Row(
@@ -142,10 +136,7 @@ private fun Menu(viewModel: InternalNewPlayerViewModel, uiState: NewPlayerUIStat
     var showMenu: Boolean by remember { mutableStateOf(false) }
     var showLanguageMenu: Boolean by remember { mutableStateOf(false) }
 
-    val embeddedUiConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
+    val embeddedUiConfig = getEmbeddedUiConfig()
 
     Box {
         IconButton(onClick = {

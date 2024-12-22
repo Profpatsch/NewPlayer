@@ -20,17 +20,14 @@
 
 package net.newpipe.newplayer.ui.videoplayer
 
-import android.app.Activity
 import android.os.Build
 import androidx.annotation.OptIn
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,21 +40,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toAndroidRectF
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.toRect
-import androidx.lifecycle.Lifecycle
 import androidx.media3.common.util.UnstableApi
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.ui.selection_ui.StreamSelectUI
-import androidx.lifecycle.LifecycleEventObserver
 import net.newpipe.newplayer.data.NewPlayerException
 import net.newpipe.newplayer.ui.common.activity
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.ui.selection_ui.ChapterSelectUI
 import net.newpipe.newplayer.ui.videoplayer.pip.getPipParams
 import net.newpipe.newplayer.ui.videoplayer.pip.supportsPip
-import net.newpipe.newplayer.ui.common.getEmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.UIModeState
 
 @OptIn(UnstableApi::class)
@@ -66,8 +58,6 @@ import net.newpipe.newplayer.uiModel.UIModeState
 /** @hide */
 internal fun VideoPlayerUi(viewModel: InternalNewPlayerViewModel, uiState: NewPlayerUIState) {
     val activity = activity()
-
-    getEmbeddedUiConfig(activity = LocalContext.current as Activity)
 
     val exoPlayer by viewModel.newPlayer?.exoPlayer!!.collectAsState()
 

@@ -20,7 +20,6 @@
 
 package net.newpipe.newplayer.ui.selection_ui
 
-import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
@@ -41,7 +40,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.media3.common.util.UnstableApi
 import net.newpipe.newplayer.R
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.uiModel.NewPlayerViewModelDummy
@@ -65,11 +63,7 @@ internal fun StreamSelectTopBar(
     uiState: NewPlayerUIState
 ) {
 
-    val embeddedUiConfig =
-        if (LocalContext.current is Activity)
-            getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-        else
-            EmbeddedUiConfig.DUMMY
+    val embeddedUiConfig = getEmbeddedUiConfig()
 
     TopAppBar(modifier = modifier,
         colors = topAppBarColors(containerColor = Color.Transparent),

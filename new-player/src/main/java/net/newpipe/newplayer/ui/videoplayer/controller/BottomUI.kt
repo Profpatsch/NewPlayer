@@ -130,10 +130,7 @@ internal fun BottomUI(
             ) {
                 Text(getTimeStringFromMs(uiState.durationInMs, getLocale() ?: locale))
 
-                val embeddedUiConfig = when (LocalContext.current) {
-                    is Activity -> getEmbeddedUiConfig(LocalContext.current as Activity)
-                    else -> EmbeddedUiConfig.DUMMY
-                }
+                val embeddedUiConfig = getEmbeddedUiConfig()
 
                 IconButton(
                     onClick = if (uiState.uiMode.fullscreen) {

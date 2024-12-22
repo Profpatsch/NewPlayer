@@ -20,10 +20,8 @@
 
 package net.newpipe.newplayer.ui.videoplayer.controller
 
-import android.app.Activity
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Crop
@@ -34,7 +32,6 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PictureInPicture
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Subtitles
-import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.filled.ZoomOutMap
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -58,11 +55,9 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import net.newpipe.newplayer.R
-import net.newpipe.newplayer.logic.TrackUtils
 import net.newpipe.newplayer.ui.ContentScale
 import net.newpipe.newplayer.ui.common.LanguageMenu
 import net.newpipe.newplayer.ui.common.LanguageMenuItem
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.uiModel.NewPlayerViewModelDummy
@@ -71,7 +66,6 @@ import net.newpipe.newplayer.ui.theme.VideoPlayerTheme
 import net.newpipe.newplayer.ui.videoplayer.pip.supportsPip
 import net.newpipe.newplayer.ui.common.getEmbeddedUiConfig
 import net.newpipe.newplayer.ui.common.showNotYetImplementedToast
-import java.util.Locale
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -91,11 +85,7 @@ internal fun VideoPlayerMenu(
         mutableStateOf(0.dp)
     }
 
-    val embeddedUiConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
-
+    val embeddedUiConfig = getEmbeddedUiConfig()
 
 
     Box {

@@ -21,7 +21,6 @@
 
 package net.newpipe.newplayer.ui.videoplayer.gesture_ui
 
-import android.app.Activity
 import androidx.annotation.OptIn
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
@@ -45,9 +44,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.media3.common.util.UnstableApi
+import net.newpipe.newplayer.ui.common.activity
 import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.UIModeState
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
@@ -90,17 +89,10 @@ internal fun FullscreenGestureUI(
         mutableFloatStateOf(0f)
     }
 
-    val defaultBrightness =
-        if (LocalContext.current is Activity)
-            getDefaultBrightness(LocalContext.current as Activity)
-        else
-            0.5f
+    val defaultBrightness = activity(0.5f, { getDefaultBrightness() })
 
-    val embeddedUiConfig =
-        if (LocalContext.current is Activity)
-            getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-        else
-            EmbeddedUiConfig.DUMMY
+    val embeddedUiConfig = getEmbeddedUiConfig()
+
 
     Box(modifier = modifier.onGloballyPositioned { coordinates ->
         heightPx = coordinates.size.height.toFloat()
