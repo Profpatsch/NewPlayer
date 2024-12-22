@@ -20,7 +20,6 @@
 
 package net.newpipe.newplayer.ui.selection_ui
 
-import android.app.Activity
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,11 +33,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.uiModel.NewPlayerViewModelDummy
@@ -57,10 +54,7 @@ internal fun ChapterSelectUI(
 ) {
     val insets = getInsets()
 
-    val embeddedUiConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
+    val embeddedUiConfig = getEmbeddedUiConfig()
 
     Scaffold(
         modifier = Modifier

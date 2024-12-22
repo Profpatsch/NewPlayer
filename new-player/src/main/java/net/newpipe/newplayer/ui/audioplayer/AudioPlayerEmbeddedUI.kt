@@ -20,7 +20,6 @@
 
 package net.newpipe.newplayer.ui.audioplayer
 
-import android.app.Activity
 import androidx.annotation.OptIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -37,14 +36,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
 import net.newpipe.newplayer.R
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.uiModel.NewPlayerViewModelDummy
@@ -57,17 +54,14 @@ import net.newpipe.newplayer.ui.common.getEmbeddedUiConfig
 import net.newpipe.newplayer.ui.common.getLocale
 import net.newpipe.newplayer.ui.common.getTimeStringFromMs
 
-@OptIn(androidx.media3.common.util.UnstableApi::class)
+@OptIn(UnstableApi::class)
 @Composable
 
 /** @hide */
 internal fun AudioPlayerEmbeddedUI(viewModel: InternalNewPlayerViewModel, uiState: NewPlayerUIState) {
     val locale = getLocale()!!
 
-    val embeddedUIConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
+    val embeddedUIConfig = getEmbeddedUiConfig()
 
     Box(modifier = Modifier.wrapContentSize()) {
         Thumbnail(

@@ -56,9 +56,26 @@ import net.newpipe.newplayer.R
 import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import java.util.Locale
 
+/** Get the [Activity] from local context. Assumes the activity exists!
+ * @return the activity
+ * @throws NullPointerException if there is no Activity
+ */
 @Composable
 internal fun activity(): Activity
     = LocalContext.current.findActivity()!!
+
+/** Call block with the [Activity] from current context, if there is an activity.
+ *
+ * @param default: the default value if there is no activity
+ * @param block: the block to call with the activity
+  */
+@Composable
+internal fun <T>activity(default: T, block: @Composable Activity.() -> T): T =
+    when (val a = LocalContext.current.findActivity()) {
+        null -> default
+        else -> block(a)
+    }
+
 
 @Composable
 internal fun window(): Window
@@ -84,9 +101,9 @@ internal fun LockScreenOrientation(orientation: Int) {
 
 @SuppressLint("NewApi")
 
+/** @return the default brightness of the screen, via window attributes */
 /** @hide */
-internal fun getDefaultBrightness(activity: Activity): Float {
-    val window = activity.window
+internal fun Activity.getDefaultBrightness(): Float {
     val layout = window.attributes as WindowManager.LayoutParams
     return if (layout.screenBrightness < 0) 0.5f else layout.screenBrightness
 }
@@ -114,19 +131,24 @@ internal fun getLocale(): Locale? {
 }
 
 @Composable
-@ReadOnlyComposable
-
+/** @return A collection of current activity/window configurations */
 /** @hide */
-internal fun getEmbeddedUiConfig(activity: Activity): EmbeddedUiConfig {
-    val window = activity.window
+internal fun getEmbeddedUiConfig()
+    = activity(EmbeddedUiConfig.DUMMY) { getEmbeddedUiConfig() }
+
+@Composable
+@ReadOnlyComposable
+/** @return A collection of current activity/window configurations */
+/** @hide */
+internal fun Activity.getEmbeddedUiConfig(): EmbeddedUiConfig {
     val view = LocalView.current
 
     val isLightStatusBar = WindowCompat.getInsetsController(
         window,
         view
     ).isAppearanceLightStatusBars
-    val screenOrientation = activity.requestedOrientation
-    val defaultBrightness = getDefaultBrightness(activity)
+    val screenOrientation = requestedOrientation
+    val defaultBrightness = getDefaultBrightness()
     return EmbeddedUiConfig(
         systemBarInLightMode = isLightStatusBar,
         brightness = defaultBrightness,

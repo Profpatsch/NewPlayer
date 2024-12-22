@@ -20,7 +20,6 @@
 
 package net.newpipe.newplayer.ui.videoplayer.controller
 
-import android.app.Activity
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.compose.animation.AnimatedVisibility
@@ -62,8 +61,6 @@ import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
 import net.newpipe.newplayer.R
 import net.newpipe.newplayer.data.VideoStreamTrack
-import net.newpipe.newplayer.logic.TrackUtils
-import net.newpipe.newplayer.uiModel.EmbeddedUiConfig
 import net.newpipe.newplayer.uiModel.NewPlayerUIState
 import net.newpipe.newplayer.uiModel.InternalNewPlayerViewModel
 import net.newpipe.newplayer.uiModel.NewPlayerViewModelDummy
@@ -80,12 +77,7 @@ import net.newpipe.newplayer.ui.common.showNotYetImplementedToast
 internal fun TopUI(
     modifier: Modifier, viewModel: InternalNewPlayerViewModel, uiState: NewPlayerUIState
 ) {
-    val embeddedUiConfig =
-        if (LocalContext.current is Activity)
-            getEmbeddedUiConfig(activity = LocalContext.current as Activity)
-        else
-            EmbeddedUiConfig.DUMMY
-
+    val embeddedUiConfig = getEmbeddedUiConfig()
     Row(
         // the default height for an app bar is 64.dp according to this source:
         // https://cs.android.com/androidx/platform/frameworks/support/+/7b27816c561b8f271d79d24ab21ba7d08aaad031:compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/TopAppBarSmallTokens.kt;l=26

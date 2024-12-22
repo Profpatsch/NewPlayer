@@ -66,10 +66,7 @@ internal fun EmbeddedGestureUI(
         mutableFloatStateOf(0f)
     }
 
-    val embeddedUiConfig = if (LocalContext.current is Activity)
-        getEmbeddedUiConfig(LocalContext.current as Activity)
-    else
-        EmbeddedUiConfig.DUMMY
+    val embeddedUiConfig = getEmbeddedUiConfig()
 
     val handleMovement = { movement: TouchedPosition ->
         //Log.d(TAG, "${movement.x}:${movement.y}")

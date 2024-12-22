@@ -145,9 +145,9 @@ fun NewPlayerUI(
             }
         }
 
+        val defaultBrightness = activity.getDefaultBrightness()
         LaunchedEffect(key1 = uiState.brightness) {
             Log.d(TAG, "New Brightness: ${uiState.brightness}")
-            val defaultBrightness = getDefaultBrightness(activity)
 
             setScreenBrightness(
                 uiState.brightness ?: defaultBrightness, activity
